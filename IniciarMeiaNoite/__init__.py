@@ -3,6 +3,7 @@ import logging
 import azure.functions as func
 from api_in import produto_plano_de_contas
 
+CACHED_DATA = None
 obj3 = "produto_plano_de_contas"
 url_base = os.getenv('DB_UR')
 cont_pg = 0
@@ -21,7 +22,9 @@ def verificar_API(dados):
 def main(mytimer: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(
         tzinfo=datetime.timezone.utc).isoformat()
-
+    global CACHED_DATA
+    if CACHED_DATA is None:
+        CACHED_DATA = load_json()
     if mytimer.past_due:
         logging.info('The timer is past due!')
 
