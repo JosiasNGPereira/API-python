@@ -2,6 +2,7 @@ import datetime
 import logging
 import azure.functions as func
 from api_in import produto_plano_de_contas
+import os
 
 CACHED_DATA = None
 obj3 = "produto_plano_de_contas"
@@ -22,6 +23,8 @@ def verificar_API(dados):
 def main(mytimer: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(
         tzinfo=datetime.timezone.utc).isoformat()
+    my_app_setting_value = os.environ["myAppSetting"]
+    logging.info(f'My app setting value:{my_app_setting_value}')
     global CACHED_DATA
     if CACHED_DATA is None:
         CACHED_DATA = load_json()
