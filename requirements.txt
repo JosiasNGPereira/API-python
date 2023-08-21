@@ -4,3 +4,7 @@
 
 azure-functions
 requests 
+logging
+datetime
+api_in
+os
